@@ -53,7 +53,7 @@ class AdminAuthentication extends Controller
         return view('admin.index');
     }
 
-    public function logout(Request $request)
+    public function adminLogout(Request $request)
     {
         Auth::logout();
         $request->session()->invalidate();
