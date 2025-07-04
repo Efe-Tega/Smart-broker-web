@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Admin;
+use App\Models\User;
 
 return [
 
@@ -39,6 +40,10 @@ return [
 
     'guards' => [
         'web' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+        'user' => [
             'driver' => 'session',
             'provider' => 'users',
         ],

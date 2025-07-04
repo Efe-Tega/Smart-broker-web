@@ -9,11 +9,6 @@ use App\Http\Controllers\Admin\WithdrawalManagement;
 use App\Http\Controllers\Auth\AdminAuthentication;
 use Illuminate\Support\Facades\Route;
 
-Route::controller(AdminAuthentication::class)->group(function () {
-    Route::get('/admin-login', 'adminLogin');
-    Route::post('/admin-login', 'login')->name('login');
-});
-
 Route::middleware('ensure.admin')->group(function () {
 
     // Authentication

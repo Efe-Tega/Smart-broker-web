@@ -18,15 +18,13 @@
 }
 
 /* Smooth transitions */
-a,
-button {
+a, button {
     transition: all 0.3s ease;
 }
 
 /* Custom shadows */
 .shadow-custom {
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-        0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 /* Loading animation */
@@ -35,7 +33,7 @@ button {
 }
 
 .loading::after {
-    content: "";
+    content: '';
     position: absolute;
     width: 16px;
     height: 16px;
@@ -168,4 +166,4 @@ button {
     border-radius: 9999px;
     font-size: 12px;
     font-weight: 600;
-}
+} 
