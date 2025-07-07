@@ -296,3 +296,17 @@
         </div>
     </div>
 @endsection
+
+<script>
+    // Mobile table functionality (needs to be in global scope if called from HTML)
+    function togglePlanDetails(row) {
+        if (window.innerWidth >= 1024) return; // Don't run on desktop
+
+        const mobileDetails = row.querySelector(".mobile-details");
+        const expandIcon = row.querySelector(".expand-icon");
+
+        mobileDetails.classList.toggle("hidden");
+        expandIcon.classList.toggle("fa-plus");
+        expandIcon.classList.toggle("fa-minus");
+    }
+</script>
