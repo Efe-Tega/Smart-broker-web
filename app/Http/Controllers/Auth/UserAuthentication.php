@@ -31,6 +31,8 @@ class UserAuthentication extends Controller
             'password' => 'required|string'
         ]);
 
+        $remember = $request->filled('remember-me');
+
         $user = User::where('email', $credentials['email'])->first();
 
         if (!$user) {
@@ -39,7 +41,7 @@ class UserAuthentication extends Controller
             ])->withInput($request->only('email'));
         }
 
-        if (Auth::guard('web')->attempt($credentials)) {
+        if (Auth::guard('web')->attempt($credentials, $remember)) {
             return redirect()->route('user.dashboard');
         }
 
@@ -75,5 +77,21 @@ class UserAuthentication extends Controller
             'url' => route('login'),
             'delay' => 3000,
         ]);
+    }
+
+    public function logout(Request $request)
+    {
+        $user = Auth::user();
+
+        Auth::guard('user')->logout();
+
+        if ($user) {
+            $user->setRememberToken(null);
+            $user->save();
+        }
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/');
     }
 }

@@ -3,7 +3,7 @@
         <div class="flex justify-between items-center h-16">
             <div class="flex items-center">
                 <a href="/" class="flex items-center">
-                    <span class="text-2xl font-bold text-blue-600">CryptoBroker</span>
+                    <span class="text-2xl font-bold text-blue-600">{{ config('app.name') }}</span>
                 </a>
             </div>
             <div class="hidden md:flex items-center space-x-8">
@@ -20,11 +20,20 @@
                     class="text-gray-600 dark:text-dark-text-primary hover:text-blue-600 dark:hover:text-blue-400">About</a>
                 <a href="#contact"
                     class="text-gray-600 dark:text-dark-text-primary hover:text-blue-600 dark:hover:text-blue-400">Contact</a>
-                <a href="login.html"
-                    class="text-gray-600 dark:text-dark-text-primary hover:text-blue-600 dark:hover:text-blue-400">Login</a>
-                <a href="register.html" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-                    Get Started
-                </a>
+                @if (Auth::user())
+                    <a href="{{ route('user.dashboard') }}"
+                        class="text-gray-600 dark:text-dark-text-primary hover:text-blue-600 dark:hover:text-blue-400">Dashboard</a>
+                @else
+                    <a href="{{ route('login') }}"
+                        class="text-gray-600 dark:text-dark-text-primary hover:text-blue-600 dark:hover:text-blue-400">Login</a>
+                @endif
+
+                @if (!Auth::user())
+                    <a href="{{ route('register') }}"
+                        class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                        Get Started
+                    </a>
+                @endif
             </div>
             <div class="md:hidden flex items-center space-x-4">
                 <button id="darkModeToggleMobile"

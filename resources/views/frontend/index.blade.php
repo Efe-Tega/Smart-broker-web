@@ -16,7 +16,7 @@
                         investment plans. Join thousands of successful investors today.
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4">
-                        <a href="register.html"
+                        <a href="{{ route('register') }}"
                             class="bg-blue-600 text-white px-8 py-3 rounded-lg text-center hover:bg-blue-700 transition duration-300">
                             Start Investing
                         </a>

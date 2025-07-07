@@ -2,10 +2,11 @@
 
 use App\Http\Controllers\Auth\AdminAuthentication;
 use App\Http\Controllers\Auth\UserAuthentication;
+use App\Http\Controllers\Frontend\HomeController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
+Route::controller(HomeController::class)->group(function () {
+    Route::get('/', 'home')->name('home');
 });
 
 // Admin Auth 

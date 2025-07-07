@@ -35,7 +35,7 @@
                             class="block px-4 py-2 text-gray-700 dark:text-dark-text-primary hover:bg-gray-100 dark:hover:bg-dark-bg-primary transition">
                             <i class="fas fa-cog mr-2"></i> Settings
                         </a>
-                        <a href="/logout"
+                        <a href="{{ route('user.logout') }}"
                             class="block px-4 py-2 text-gray-700 dark:text-dark-text-primary hover:bg-gray-100 dark:hover:bg-dark-bg-primary transition">
                             <i class="fas fa-sign-out-alt mr-2"></i> Logout
                         </a>
