@@ -17,7 +17,7 @@
                 <p class="text-gray-600 mt-2">Sign in to your account</p>
             </div>
 
-            <form action="{{ route('login') }}" method="post" id="login-form" class="space-y-6">
+            <form action="{{ url('/admin-login') }}" method="post" id="login-form" class="space-y-6">
                 @csrf
 
                 <div>

@@ -31,7 +31,7 @@ class AdminAuthentication extends Controller
         if (!$admin) {
             // Email not found
             return back()->withErrors([
-                'email' => 'No admin account found with this email address.'
+                'email' => 'Nil admin account found with this email address.'
             ])->withInput($request->only('email'));
         }
 
