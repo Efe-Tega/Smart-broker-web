@@ -1,14 +1,14 @@
 @extends('layouts.backend.app')
 @section('content')
     <!-- Main Content -->
-    <div class="w-full lg:ml-64 p-8">
+    <div class="w-full lg:ml-64 lg:p-8 p-4">
         <!-- Page Header -->
         <x-backend.page-header title="Deposit Funds" desc="Add funds to your account using cryptocurrency" />
 
         <!-- Deposit Methods -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <!-- Quick Deposit Card -->
-            <div class="bg-white dark:bg-dark-bg-secondary rounded-lg shadow p-6">
+            <div class="bg-white dark:bg-dark-bg-secondary rounded-lg shadow md:p-6 p-4">
                 <h2 class="text-lg font-semibold text-gray-900 dark:text-dark-text-primary mb-4">
                     Quick Deposit
                 </h2>
@@ -16,12 +16,13 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-dark-text-primary mb-2">Select
                             Cryptocurrency</label>
-                        <select
-                            class="w-full border border-gray-300 dark:border-gray-600 dark:bg-dark-bg-primary dark:text-dark-text-primary rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            <option value="btc">Bitcoin (BTC)</option>
-                            <option value="eth">Ethereum (ETH)</option>
-                            <option value="usdt">Tether (USDT)</option>
-                            <option value="bnb">Binance Coin (BNB)</option>
+                        <select id="cryptoCurrency"
+                            class="w-full border border-gray-300 dark:border-gray-600 dark:bg-dark-bg-primary dark:text-dark-text-primary rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 capitalize">
+                            <option value="">-- Select Crypto --</option>
+                            @foreach ($cryptoCurrency as $currency)
+                                <option value="{{ $currency->short_name }}" data-network="{{ $currency->network_type }}">
+                                    {{ $currency->name }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div>
@@ -38,12 +39,20 @@
                             Amount in Crypto</label>
                         <div class="relative">
                             <input type="text" id="cryptoAmount" readonly
-                                class="w-full border border-gray-300 dark:border-gray-600 dark:bg-dark-bg-primary dark:text-dark-text-primary rounded-lg px-3 py-2 bg-gray-50 dark:bg-dark-bg-primary focus:outline-none" />
+                                class="w-full border border-gray-300 dark:border-gray-600 dark:bg-dark-bg-primary dark:text-dark-text-primary rounded-lg px-3 py-2 bg-gray-50 focus:outline-none" />
                             <div class="absolute inset-y-0 right-0 flex items-center pr-3">
                                 <span id="cryptoSymbol" class="text-gray-500 dark:text-dark-text-secondary"></span>
                             </div>
                         </div>
                     </div>
+                    <div class="mt-2">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-dark-text-primary mb-2">
+                            Network
+                        </label>
+                        <input type="text" id="networkType" readonly
+                            class="w-full border border-gray-300 dark:border-gray-600 dark:bg-dark-bg-primary dark:text-dark-text-primary rounded-lg px-3 py-2 bg-gray-50 focus:outline-none" />
+                    </div>
+
                     <button class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
                         Generate Deposit Address
                     </button>
@@ -51,7 +60,7 @@
             </div>
 
             <!-- Deposit Instructions -->
-            <div class="bg-white dark:bg-dark-bg-secondary rounded-lg shadow p-6">
+            <div class="bg-white dark:bg-dark-bg-secondary rounded-lg shadow md:p-6 p-4">
                 <h2 class="text-lg font-semibold text-gray-900 dark:text-dark-text-primary mb-4">
                     How to Deposit
                 </h2>
@@ -104,7 +113,7 @@
 
         <!-- Recent Deposits -->
         <div class="bg-white dark:bg-dark-bg-secondary rounded-lg shadow">
-            <div class="p-6">
+            <div class="md:p-6 p-4">
                 <h2 class="text-lg font-semibold text-gray-900 dark:text-dark-text-primary mb-4">
                     Recent Deposits
                 </h2>
@@ -227,7 +236,7 @@
 
                             <!-- Amount Display -->
                             <div
-                                class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-4">
+                                class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg px-4 py-2 mb-4">
                                 <div class="flex flex-col space-y-2">
                                     <div class="flex items-center justify-between">
                                         <div class="flex items-center">
@@ -247,11 +256,20 @@
                                         <span id="cryptoAmountDisplay"
                                             class="text-blue-700 dark:text-blue-400 font-bold text-sm sm:text-base break-all"></span>
                                     </div>
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center">
+                                            <i class="fas fa-coins text-blue-600 mr-2"></i>
+                                            <span
+                                                class="text-blue-700 dark:text-blue-400 text-sm sm:text-base">Network:</span>
+                                        </div>
+                                        <span id="networkTypeDisplay"
+                                            class="text-blue-700 dark:text-blue-400 font-bold text-sm sm:text-base break-all"></span>
+                                    </div>
                                 </div>
                             </div>
 
                             <div
-                                class="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4 mb-4">
+                                class="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg px-4 py-2 mb-4">
                                 <div class="flex items-center">
                                     <i class="fas fa-clock text-yellow-600 mr-2"></i>
                                     <span class="text-yellow-700 dark:text-yellow-400">Time remaining:
@@ -317,7 +335,7 @@
                                                 class="relative cursor-pointer bg-white dark:bg-dark-bg-primary rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none">
                                                 <span>Upload a file</span>
                                                 <input id="transaction-image" name="transaction-image" type="file"
-                                                    class="sr-only" accept="image/*" />
+                                                    class="sr-only" accept="image/*" required />
                                             </label>
                                         </div>
                                         <p class="text-xs text-gray-500 dark:text-dark-text-secondary">

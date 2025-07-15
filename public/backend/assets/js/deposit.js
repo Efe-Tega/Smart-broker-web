@@ -32,7 +32,7 @@ async function fetchCryptoRates() {
             btc: 1 / data.bitcoin.usd,
             eth: 1 / data.ethereum.usd,
             usdt: 1 / data.tether.usd,
-            bnb: 1 / data["binance-coin"].usd,
+            // bnb: 1 / data["binance-coin"].usd,
         };
     } catch (error) {
         console.error("Error fetching crypto rates:", error);
@@ -40,10 +40,25 @@ async function fetchCryptoRates() {
             btc: 1 / 65000,
             eth: 1 / 3500,
             usdt: 1,
-            bnb: 1 / 450,
+            // bnb: 1 / 450,
         };
     }
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('cryptoCurrency').addEventListener('change', function () {
+        const selectedIndex = this.selectedIndex;
+
+        if (selectedIndex > 0) {
+            const selectedOption = this.options[selectedIndex]
+            const networkType = selectedOption.getAttribute('data-network');
+            document.getElementById('networkType').value = networkType || '';
+        } else {
+            document.getElementById('networkType').value = '';
+        }
+
+    });
+})
 
 // Function to update crypto amount
 function updateCryptoAmount() {
@@ -103,12 +118,11 @@ function showDepositModal(walletAddress, amount, crypto) {
 
     // Update the split display of USD and crypto amounts
     const cryptoAmount = document.getElementById("cryptoAmount").value;
-    const cryptoSymbol =
-        document.getElementById("cryptoSymbol").textContent;
+    const cryptoSymbol = document.getElementById("cryptoSymbol").textContent;
+    const networkType = document.getElementById('networkType').value;
     document.getElementById("usdAmountDisplay").textContent = amount;
-    document.getElementById(
-        "cryptoAmountDisplay"
-    ).textContent = `${cryptoAmount} ${cryptoSymbol}`;
+    document.getElementById("cryptoAmountDisplay").textContent = `${cryptoAmount} ${cryptoSymbol}`;
+    document.getElementById('networkTypeDisplay').textContent = `${networkType}`
 
     // Generate QR Code
     qrCode = new QRCode(qrcodeDiv, {
@@ -161,8 +175,74 @@ function cancelDeposit() {
 }
 
 function submitDeposit() {
-    // Here you would typically send the data to your server
-    cancelDeposit();
+    const formData = new FormData();
+    const csrfToken = document.querySelector('meta[name="csrf_token"]').getAttribute('content');
+
+    // values from main deposit form
+    formData.append('crypto_currency', document.getElementById('cryptoCurrency').value);
+    formData.append('usd_amount', document.getElementById('usdAmount').value);
+    formData.append('crypto_amount', document.getElementById('cryptoAmount').value);
+    formData.append('wallet_address', document.getElementById('walletAddress').value);
+
+
+    // uploaded image from modal
+    const fileInput = document.getElementById('transaction-image');
+    if (fileInput.files.length > 0) {
+        formData.append('transaction-image', fileInput.files[0]);
+    } else {
+        alert('Please upload your transaction receipt image.');
+        return;
+    }
+
+    // Show loading state
+    const submitBtn = document.querySelector('#confirmationStep button[onclick="submitDeposit()"]');
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = 'Processing...';
+
+    fetch('/user/submit-deposit', {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': csrfToken
+        },
+        body: formData
+    })
+        .then(response => {
+            if (!response.ok) throw new Error('Failed to submit');
+            return response.json();
+        })
+        .then(data => {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 4000,
+                timerProgressBar: true,
+                background: '#10b981',
+                color: '#ffffff',
+                iconColor: '#ffffff',
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer);
+                    toast.addEventListener('mouseleave', Swal.resumeTimer);
+                }
+            });
+
+            Toast.fire({
+                icon: 'success',
+                title: data.message || 'Deposit submitted!',
+                iconHtml: '<i class="fas fa-check"></i>'
+            }).then(() => {
+                location.reload();
+            })
+
+            // alert(data.message || 'Deposit submitted!')
+            // location.reload();
+        })
+        .catch(err => {
+            console.error(err);
+            alert('Error submitting deposit. Please try again.');
+        });
+
+    // cancelDeposit();
 }
 
 // Initialize everything when the DOM is loaded

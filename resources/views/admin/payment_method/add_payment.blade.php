@@ -1,7 +1,7 @@
 @extends('admin.admin_main')
 
 @section('title')
-    {{ __('Edit Payment Method') }}
+    {{ __('Add Payment Method') }}
 @endsection
 
 @section('admin-content')
@@ -9,7 +9,7 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">{{ __('Update Payment Method') }}</h4>
+                <h4 class="mb-sm-0">{{ __('Add Payment Method') }}</h4>
 
                 <button onclick="window.history.back()" class="btn btn-primary py-1">
                     <span class="d-flex align-items-center">
@@ -25,17 +25,15 @@
     <div class="col-xl-12">
         <div class="card border-top border-primary">
             <div class="card-body">
-                <form class="" action="{{ route('admin.update-payment') }}" method="post">
+                <form class="" action="{{ route('admin.save-payment') }}" method="POST">
                     @csrf
 
                     <div class="row">
-                        <input type="hidden" name="id" value="{{ $cryptoData->id }}">
-
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="" class="form-label">Crypto Name</label>
                                 <input type="text" class="form-control" id="" placeholder="Bitcoin"
-                                    name="crypto_name" value="{{ $cryptoData->name }}" required>
+                                    value="{{ old('crypto_name') }}" name="crypto_name" required>
 
                                 @error('crypto_name')
                                     <span class="mt-1 text-danger">{{ $message }}</span>
@@ -47,7 +45,11 @@
                             <div class="mb-3">
                                 <label for="" class="form-label">Short Name</label>
                                 <input type="text" class="form-control" id="" placeholder="BTC"
-                                    name="short_name" required value="{{ $cryptoData->short_name }}">
+                                    value="{{ old('short_name') }}" name="short_name" required>
+
+                                @error('short_name')
+                                    <span class="mt-1 text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
 
@@ -55,7 +57,7 @@
                             <div class="mb-3">
                                 <label for="" class="form-label">Wallet Address </label>
                                 <input type="text" class="form-control" id="" placeholder="" required
-                                    value="{{ $cryptoData->wallet_address }}" name="wallet_address">
+                                    name="wallet_address" value="{{ old('wallet_address') }}">
                             </div>
                         </div>
 
@@ -63,18 +65,16 @@
                             <div class="mb-3">
                                 <label for="" class="form-label">Blockchain Network </label>
                                 <input type="text" class="form-control" id="" placeholder="" required
-                                    value="{{ $cryptoData->network_type }}" name="network_type">
+                                    name="network_type" value="{{ old('network_type') }}">
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="" class="form-label">Status</label>
-                                <select name="status" id="" class="form-select text-capitalize">
-                                    <option value="enable" {{ $cryptoData->status === 'enable' ? 'selected' : '' }}>Enable
-                                    </option>
-                                    <option value="disable" {{ $cryptoData->status === 'disable' ? 'selected' : '' }}>
-                                        Disable</option>
+                                <select name="status" id="" class="form-select">
+                                    <option value="enabled">Enable</option>
+                                    <option value="disabled">Disable</option>
                                 </select>
                             </div>
                         </div>

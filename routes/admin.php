@@ -36,6 +36,7 @@ Route::middleware('ensure.admin')->group(function () {
 
         Route::controller(DepositManagement::class)->group(function () {
             Route::get('/manage_deposit', 'index')->name('manage.deposit');
+            Route::get('/edit-deposit', 'editDeposit')->name('edit-deposit');
         });
 
         Route::controller(WithdrawalManagement::class)->group(function () {
@@ -50,8 +51,13 @@ Route::middleware('ensure.admin')->group(function () {
 
         // Payment Methods Management
         Route::controller(PaymentMethodManagement::class)->group(function () {
-            Route::get('payment/method', 'index')->name('payment.method');
-            Route::get('edit/payment-method', 'editPayment')->name('edit.payment');
+            Route::get('/payment/method', 'index')->name('payment.method');
+            Route::get('/add/payment-method', 'addPayment')->name('add-paymnet');
+            Route::get('edit/payment-method/{id}', 'editPayment')->name('edit.payment');
+            Route::get('/delete-payment/{id}', 'deletePayment')->name('delete-payment');
+
+            Route::post('/add/payment', 'savePayment')->name('save-payment');
+            Route::post('/update-payment', 'updatePayment')->name('update-payment');
         });
     });
 });

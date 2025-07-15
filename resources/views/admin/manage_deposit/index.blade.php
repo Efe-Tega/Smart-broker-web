@@ -28,12 +28,12 @@
                         <thead>
                             <tr>
                                 <th>S/N</th>
+                                <th>Transaction ID</th>
                                 <th>Client Name</th>
-                                <th>Client Email</th>
                                 <th>Amount</th>
-                                <th>Payment Method</th>
+                                <th>Crypto Amount</th>
                                 <th>Status</th>
-                                <th>Date Created</th>
+                                <th>Date</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -41,37 +41,34 @@
                         <tbody>
                             <tr>
                                 <td>1</td>
-                                <td>Tiger Nixon</td>
+                                <td>TRX2095rj252</td>
+                                <td>John Doe</td>
                                 <td>
-                                    <span>$</span>
-                                    0.00
+                                    $5000.00
                                 </td>
-                                <td>Edinburgh</td>
-                                <td>61</td>
+                                <td>0.345496 BTC</td>
                                 <td>
-                                    <button class="btn btn-success btn-sm">Active</button>
+                                    <button class="btn btn-warning btn-sm">Pending</button>
                                 </td>
                                 <td>Thu, Nov 14, 2024</td>
                                 <td>
-                                    <a href="" class="btn btn-info btn-sm" data-bs-toggle="modal"
-                                        data-bs-target=".payment-proof-modal">View</a>
+                                    <a href="{{ route('admin.edit-deposit') }}" class="btn btn-info btn-sm">View</a>
                                     <a href="" class="btn btn-danger btn-sm">Delete</a>
                                 </td>
                             </tr>
 
                             <tr>
                                 <td>2</td>
-                                <td>Tiger Nixon</td>
+                                <td>TRX209230252</td>
+                                <td>Jane Doe</td>
                                 <td>
-                                    <span>$</span>
-                                    0.00
+                                    $5000.00
                                 </td>
-                                <td>Edinburgh</td>
-                                <td>61</td>
+                                <td>0.345496 BTC</td>
                                 <td>
-                                    <button class="btn btn-danger btn-sm">Blocked</button>
+                                    <button class="btn btn-success btn-sm">Successful</button>
                                 </td>
-                                <td>Thu, Nov 14, 2024</td>
+                                <td>Thu, Jul 10, 2024</td>
                                 <td>
                                     <button class="btn btn-info btn-sm">View</button>
                                     <button class="btn btn-danger btn-sm">Delete</button>
@@ -80,23 +77,21 @@
 
                             <tr>
                                 <td>3</td>
-                                <td>Tiger Nixon</td>
+                                <td>TRX20952323f52</td>
+                                <td>Alex Smith</td>
                                 <td>
-                                    <span>$</span>
-                                    0.00
+                                    $6,000.00
                                 </td>
-                                <td>Edinburgh</td>
-                                <td>61</td>
+                                <td>0.3423296 ETH</td>
                                 <td>
-                                    <button class="btn btn-success btn-sm">Active</button>
+                                    <button class="btn btn-danger btn-sm">Rejected</button>
                                 </td>
-                                <td>Thu, Nov 14, 2024</td>
+                                <td>Thu, Mar 13, 2024</td>
                                 <td>
                                     <button class="btn btn-info btn-sm">View</button>
                                     <button class="btn btn-danger btn-sm">Delete</button>
                                 </td>
                             </tr>
-
 
                         </tbody>
                     </table>
@@ -105,20 +100,4 @@
             </div>
         </div> <!-- end col -->
     </div> <!-- end row -->
-
-    {{-- Proof of payment modal --}}
-    <div class="modal fade payment-proof-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Proof of payment</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <img class="img-fluid" src="assets/images/product/img-1.png" alt="proof of payment">
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
 @endsection

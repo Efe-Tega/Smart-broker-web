@@ -20,6 +20,8 @@ Route::middleware(['auth'])->prefix('user')->name('user.')->group(function () {
         Route::get('/transaction-history', 'index')->name('transaction-history');
         Route::get('/deposits', 'viewDeposits')->name('deposit');
         Route::get('/withdraws', 'viewWithdrawals')->name('withdraws');
+
+        Route::post('/submit-deposit', 'submitDeposit');
     });
 
     Route::controller(InvestmentController::class)->group(function () {
