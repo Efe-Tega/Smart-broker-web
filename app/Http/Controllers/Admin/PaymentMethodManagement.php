@@ -68,7 +68,7 @@ class PaymentMethodManagement extends Controller
         ]);
 
         $id = $request->id;
-        $shortName = strtolower($request->short_name);
+        $shortName = strtoupper($request->short_name);
 
         CryptoCurrency::findOrFail($id)->update([
             'name' => $request->crypto_name,

@@ -45,9 +45,18 @@
                         <span class="text-gray-600 dark:text-dark-text-secondary">24/7 Support</span>
                     </div>
                 </div>
-                <button class="w-full mt-8 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
-                    Invest Now
-                </button>
+
+                <form action="">
+                    <div class="mt-5">
+                        <input type="number" id="investmentAmount"
+                            class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-bg-primary text-gray-900 dark:text-dark-text-primary rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            placeholder="Enter amount" />
+                    </div>
+                    <button type="submit"
+                        class="w-full mt-2 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
+                        Invest Now
+                    </button>
+                </form>
             </div>
 
             <!-- Premium Plan -->
@@ -89,9 +98,18 @@
                         <span class="text-gray-600 dark:text-dark-text-secondary">Priority Support</span>
                     </div>
                 </div>
-                <button class="w-full mt-8 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
-                    Invest Now
-                </button>
+
+                <form action="">
+                    <div class="mt-5">
+                        <input type="number" id="investmentAmount"
+                            class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-bg-primary text-gray-900 dark:text-dark-text-primary rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            placeholder="Enter amount" required />
+                    </div>
+                    <button type="submit"
+                        class="w-full mt-2 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
+                        Invest Now
+                    </button>
+                </form>
             </div>
 
             <!-- Platinum Plan -->
@@ -129,9 +147,18 @@
                         <span class="text-gray-600 dark:text-dark-text-secondary">VIP Support</span>
                     </div>
                 </div>
-                <button class="w-full mt-8 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
-                    Invest Now
-                </button>
+
+                <form action="">
+                    <div class="mt-5">
+                        <input type="number" id="investmentAmount"
+                            class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-bg-primary text-gray-900 dark:text-dark-text-primary rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            placeholder="Enter amount" />
+                    </div>
+                    <button type="submit"
+                        class="w-full mt-2 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
+                        Invest Now
+                    </button>
+                </form>
             </div>
         </div>
 

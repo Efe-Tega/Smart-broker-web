@@ -21,7 +21,8 @@
                             <option value="">-- Select Crypto --</option>
                             @foreach ($cryptoCurrency as $currency)
                                 <option value="{{ $currency->short_name }}" data-network="{{ $currency->network_type }}">
-                                    {{ $currency->name }}</option>
+                                    {{ $currency->name }} ({{ $currency->short_name }})
+                                </option>
                             @endforeach
                         </select>
                     </div>
