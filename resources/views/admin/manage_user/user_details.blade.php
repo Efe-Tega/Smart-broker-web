@@ -95,6 +95,65 @@
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-body">
+                        <h4 class="card-title mb-4 text-danger">Payment Information</h4>
+
+                        <h6 class="border-bottom pb-2">Wallet Information</h6>
+                        <div class="d-flex flex-column mb-3">
+                            <div class="d-flex align-items-center gap-1">
+                                <img src="{{ asset('backend/assets/logo/bitcoin-btc-logo.png') }}"
+                                    style="width: 18px; height: 18px;" alt="">
+                                <span>Bitcoin (BTC)</span>
+                            </div>
+                            <div class="card-text text-capitalize">Address: 1xaoigansgaoieawje8itq239rhfnasdk</div>
+                            <div>Network: BTC</div>
+                        </div>
+                        <div class="d-flex flex-column mb-3">
+                            <div class="d-flex align-items-center gap-1">
+                                <img src="{{ asset('backend/assets/logo/ethereum-eth-logo.png') }}"
+                                    style="width: 18px; height: 18px;" alt="">
+                                <span>Ethereum (ETH)</span>
+                            </div>
+                            <div class="card-text text-capitalize">Address: 1xaoigansgaoieawje8itq239rhfnasdk</div>
+                            <div>Network: TRC20</div>
+                        </div>
+                        <div class="d-flex flex-column mb-4">
+                            <div class="d-flex align-items-center gap-1">
+                                <img src="{{ asset('backend/assets/logo/tether-usdt-logo.png') }}"
+                                    style="width: 18px; height: 18px;" alt="">
+                                <span>Tether (USDT)</span>
+                            </div>
+                            <div class="card-text text-capitalize">Address: 1xaoigansgaoieawje8itq239rhfnasdk</div>
+                            <div>Network: TRC20</div>
+                        </div>
+
+
+                        <h6 class="border-bottom pb-2">Bank Details</h6>
+                        <div class="d-flex flex-column mb-2">
+                            <div class="d-flex align-items-center gap-1">
+                                <i class="fas fa-university text-green-600 dark:text-green-300 mr-2"></i>
+                                <span class="text-dark">Bank of America</span>
+                            </div>
+                            <div class="card-text text-capitalize">
+                                <span class="fw-bold text-dark">Account name:</span> Efe Tega
+                            </div>
+                            <div class="card-text text-capitalize">
+                                <span class="fw-bold text-dark">Account number:</span> 9438493023
+                            </div>
+                            <div class="card-text text-capitalize">
+                                <span class="fw-bold text-dark">SWIFT/BIC:</span> BOFAUS3N
+                            </div>
+                            <div>
+                                <span class="fw-bold text-dark">Country:</span> USA
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-body">
 
                         <h4 class="card-title">Manage Account</h4>
 
@@ -123,7 +182,6 @@
                 <div class="card-body">
                     <h4 class="card-title mb-3">Update Bio Data</h4>
                     <span class="text-danger">All fields are required</span>
-
 
                     <form method="POST" action="{{ route('admin.update.user') }}" enctype="multipart/form-data">
                         @csrf

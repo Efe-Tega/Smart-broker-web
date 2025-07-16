@@ -23,13 +23,13 @@
             <div class="card">
                 <div class="card-body">
 
-                    <x-table :columns="['S/N', 'Account Balance', 'Email', 'Phone', 'Status', 'Date Registered', 'Action']">
+                    <x-admin.table :columns="['S/N', 'Account Balance', 'Email', 'Phone', 'Status', 'Date Registered', 'Action']">
                         @foreach ($users as $key => $user)
                             <tr>
                                 <td>{{ $key + 1 }}</td>
                                 <td>
-                                    <span>{{ $user->currency }}</span>
-                                    {{ $user->account_bal }}
+                                    {{-- <span>{{ $user->currency }}</span> --}}
+                                    $5,000.00
                                 </td>
                                 <td>{{ $user->email }}</td>
                                 <td>{{ $user->phone }}</td>
@@ -43,7 +43,7 @@
                                 </td>
                             </tr>
                         @endforeach
-                    </x-table>
+                    </x-admin.table>
 
                 </div>
             </div>
