@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\DepositManagement;
 use App\Http\Controllers\Admin\InvestmentPlanManagement;
+use App\Http\Controllers\Admin\KycManagement;
 use App\Http\Controllers\Admin\PaymentMethodManagement;
 use App\Http\Controllers\Admin\SettingsManagement;
 use App\Http\Controllers\Admin\UserManagement;
@@ -25,6 +26,11 @@ Route::middleware('ensure.admin')->group(function () {
             Route::get('/user/details/{id}', 'userDetails')->name('user.details');
 
             Route::post('/update_user', 'updateUser')->name('update.user');
+        });
+
+        // KYC Management
+        Route::controller(KycManagement::class)->group(function () {
+            Route::get('/manage/kyc', 'index')->name('manage.kyc');
         });
 
         // Investment Plan Management

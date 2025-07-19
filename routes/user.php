@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\UserAuthentication;
 use App\Http\Controllers\Backend\InvestmentController;
+use App\Http\Controllers\Backend\KycController;
 use App\Http\Controllers\Backend\SettingsController;
 use App\Http\Controllers\Backend\TransactionController;
 use App\Http\Controllers\Backend\UserController;
@@ -14,6 +15,10 @@ Route::middleware(['auth'])->prefix('user')->name('user.')->group(function () {
 
     Route::controller(UserController::class)->group(function () {
         Route::get('/dashboard', 'dashboard')->name('dashboard');
+    });
+
+    Route::controller(KycController::class)->group(function () {
+        Route::get('/kyc', 'index')->name('kyc');
     });
 
     Route::controller(TransactionController::class)->group(function () {

@@ -27,6 +27,10 @@
                 class="{{ $route === 'user.investments' ? 'text-blue-600 bg-blue-50 dark:bg-blue-900/20' : 'text-gray-600 dark:text-dark-text-primary hover:bg-blue-50 dark:hover:bg-blue-900/20' }}"
                 icon="fa-coins" linkText="Investments" />
 
+            <x-sidebar-link linkUrl="{{ route('user.kyc') }}"
+                class="{{ $route === 'user.kyc' ? 'text-blue-600 bg-blue-50 dark:bg-blue-900/20' : 'text-gray-600 dark:text-dark-text-primary hover:bg-blue-50 dark:hover:bg-blue-900/20' }}"
+                icon="fa-id-card" linkText="KYC" />
+
             <x-sidebar-link linkUrl="{{ route('user.settings') }}"
                 class="{{ $route === 'user.settings' ? 'text-blue-600 bg-blue-50 dark:bg-blue-900/20' : 'text-gray-600 dark:text-dark-text-primary hover:bg-blue-50 dark:hover:bg-blue-900/20' }}"
                 icon="fa-cog" linkText="Settings" />

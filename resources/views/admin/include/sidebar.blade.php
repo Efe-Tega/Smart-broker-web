@@ -52,6 +52,13 @@
                 </li>
 
                 <li>
+                    <a href="{{ route('admin.manage.kyc') }}" class="waves-effect">
+                        <i class="far fa-id-card"></i>
+                        <span>Manage Kyc Requests</span>
+                    </a>
+                </li>
+
+                <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-settings-2-line"></i>
                         <span>Settings</span>
