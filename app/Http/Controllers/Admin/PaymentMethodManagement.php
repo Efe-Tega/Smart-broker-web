@@ -30,8 +30,8 @@ class PaymentMethodManagement extends Controller
             'status' => 'required',
         ]);
 
-        $currencyName = strtolower($request->crypto_name);
-        $shortName = strtolower($request->short_name);
+        $currencyName = strtolower($request->input('crypto_name'));
+        $shortName = strtolower($request->input('short_name'));
         $cryptoCurrency = CryptoCurrency::where('name', $currencyName)->first();
 
         if ($cryptoCurrency) {
@@ -41,11 +41,11 @@ class PaymentMethodManagement extends Controller
         }
 
         CryptoCurrency::insert([
-            'name' => $request->crypto_name,
+            'name' => $request->input('crypto_name'),
             'short_name' => $shortName,
-            'wallet_address' => $request->wallet_address,
-            'network_type' => $request->network_type,
-            'status' => $request->status,
+            'wallet_address' => $request->input('wallet_address'),
+            'network_type' => $request->input('network_type'),
+            'status' => $request->input('status'),
             'created_at' => Carbon::now()
         ]);
 
@@ -67,15 +67,15 @@ class PaymentMethodManagement extends Controller
             'status' => 'required'
         ]);
 
-        $id = $request->id;
-        $shortName = strtoupper($request->short_name);
+        $id = $request->input('id');
+        $shortName = strtolower($request->input('short_name'));
 
         CryptoCurrency::findOrFail($id)->update([
-            'name' => $request->crypto_name,
+            'name' => $request->input('crypto_name'),
             'short_name' => $shortName,
-            'wallet_address' => $request->wallet_address,
-            'network_type' => $request->network_type,
-            'status' => $request->status,
+            'wallet_address' => $request->input('wallet_address'),
+            'network_type' => $request->input('network_type'),
+            'status' => $request->input('status'),
         ]);
 
         $notification = array(

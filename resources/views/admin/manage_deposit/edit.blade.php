@@ -9,7 +9,12 @@
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                 <h4 class="mb-sm-0">{{ __('Manage Deposit') }}</h4>
-                <button onclick="window.history.back()" class="btn btn-primary">Back</button>
+
+                <button class="btn btn-primary py-1" onclick="window.history.back()">
+                    <span class="d-flex align-items-center"> <i class="ri-rewind-mini-fill font-size-20"></i>
+                        <span style="margin-left: 5px">Back</span>
+                    </span>
+                </button>
             </div>
         </div>
     </div>

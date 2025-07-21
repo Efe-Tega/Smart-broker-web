@@ -126,7 +126,6 @@ function showDepositModal(walletAddress, amount, crypto) {
 
     // Generate QR Code
     qrCode = new QRCode(qrcodeDiv, {
-        // text: walletAddress,
         text: walletAddress,
         width: 128,
         height: 128,
