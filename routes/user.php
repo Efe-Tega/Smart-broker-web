@@ -22,6 +22,7 @@ Route::middleware(['auth'])->prefix('user')->name('user.')->group(function () {
     });
 
     Route::controller(TransactionController::class)->group(function () {
+        Route::get('/wallet-address/{symbol}', 'getAddress');
         Route::get('/transaction-history', 'index')->name('transaction-history');
         Route::get('/deposits', 'viewDeposits')->name('deposit');
         Route::get('/withdraws', 'viewWithdrawals')->name('withdraws');

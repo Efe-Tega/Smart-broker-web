@@ -20,7 +20,8 @@
                             class="w-full border border-gray-300 dark:border-gray-600 dark:bg-dark-bg-primary dark:text-dark-text-primary rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 capitalize">
                             <option value="">-- Select Crypto --</option>
                             @foreach ($cryptoCurrency as $currency)
-                                <option value="{{ $currency->short_name }}" data-network="{{ $currency->network_type }}">
+                                <option value="{{ $currency->short_name }}" data-id="{{ $currency->id }}"
+                                    data-network="{{ $currency->network_type }}">
                                     {{ $currency->name }}
                                 </option>
                             @endforeach
@@ -42,7 +43,8 @@
                             <input type="text" id="cryptoAmount" readonly
                                 class="w-full border border-gray-300 dark:border-gray-600 dark:bg-dark-bg-primary dark:text-dark-text-primary rounded-lg px-3 py-2 bg-gray-50 focus:outline-none" />
                             <div class="absolute inset-y-0 right-0 flex items-center pr-3">
-                                <span id="cryptoSymbol" class="text-gray-500 dark:text-dark-text-secondary"></span>
+                                <span id="cryptoSymbol"
+                                    class="text-gray-500 dark:text-dark-text-secondary uppercase"></span>
                             </div>
                         </div>
                     </div>
@@ -53,6 +55,8 @@
                         <input type="text" id="networkType" readonly
                             class="w-full border border-gray-300 dark:border-gray-600 dark:bg-dark-bg-primary dark:text-dark-text-primary rounded-lg px-3 py-2 bg-gray-50 focus:outline-none" />
                     </div>
+
+                    <input type="hidden" name="currency_id" id="currencyId">
 
                     <button class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
                         Generate Deposit Address
@@ -145,76 +149,106 @@
                             </tr>
                         </thead>
                         <tbody class="bg-white dark:bg-dark-bg-secondary divide-y divide-gray-200 dark:divide-gray-700">
-                            <tr class="deposit-row cursor-pointer lg:cursor-default" onclick="toggleDepositDetails(this)">
-                                <td class="px-6 py-4 whitespace-nowrap lg:table-cell">
-                                    <div class="flex items-center">
-                                        <button class="mr-3 text-gray-500 dark:text-dark-text-secondary lg:hidden">
-                                            <i class="fas fa-plus expand-icon"></i>
-                                        </button>
-                                        <div class="w-full">
-                                            <div class="text-sm font-medium text-gray-900 dark:text-dark-text-primary">
-                                                2024-02-20
-                                            </div>
-                                            <!-- Mobile Only Details -->
-                                            <div class="mobile-details hidden lg:hidden mt-4">
-                                                <div class="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 gap-4">
-                                                    <div>
-                                                        <div class="text-xs text-gray-500 dark:text-dark-text-secondary">
-                                                            Currency
+                            @foreach ($deposits as $deposit)
+                                <tr class="deposit-row cursor-pointer lg:cursor-default"
+                                    onclick="toggleDepositDetails(this)">
+                                    <td class="px-6 py-4 whitespace-nowrap lg:table-cell">
+                                        <div class="flex items-center">
+                                            <button class="mr-3 text-gray-500 dark:text-dark-text-secondary lg:hidden">
+                                                <i class="fas fa-plus expand-icon"></i>
+                                            </button>
+                                            <div class="w-full">
+                                                <div class="text-sm font-medium text-gray-900 dark:text-dark-text-primary">
+                                                    {{ $deposit->created_at->format('M d, Y') }}
+                                                </div>
+                                                <!-- Mobile Only Details -->
+                                                <div class="mobile-details hidden lg:hidden mt-4">
+                                                    <div class="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 gap-4">
+                                                        <div>
+                                                            <div
+                                                                class="text-xs text-gray-500 dark:text-dark-text-secondary">
+                                                                Currency
+                                                            </div>
+                                                            <div class="text-sm text-gray-900 dark:text-dark-text-primary">
+                                                                {{ $deposit->currency->name }}
+                                                                <span
+                                                                    class="uppercase">({{ $deposit->currency->short_name }})</span>
+                                                            </div>
                                                         </div>
-                                                        <div class="text-sm text-gray-900 dark:text-dark-text-primary">
-                                                            Bitcoin (BTC)
+                                                        <div>
+                                                            <div
+                                                                class="text-xs text-gray-500 dark:text-dark-text-secondary">
+                                                                Amount
+                                                            </div>
+                                                            <div class="text-sm text-gray-900 dark:text-dark-text-primary">
+                                                                ${{ number_format($deposit->amount, 2) }}
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div>
-                                                        <div class="text-xs text-gray-500 dark:text-dark-text-secondary">
-                                                            Amount
+                                                        <div>
+                                                            <div
+                                                                class="text-xs text-gray-500 dark:text-dark-text-secondary">
+                                                                Status
+                                                            </div>
+                                                            @if ($deposit->status === 'pending')
+                                                                <span
+                                                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 dark:bg-yellow-900/30 text-yellow-500 dark:text-yellow-400">Pending</span>
+                                                            @elseif($deposit->status === 'success')
+                                                                <span
+                                                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400">Completed</span>
+                                                            @else
+                                                                <span
+                                                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 dark:bg-green-900/30 text-red-800 dark:text-red-400">Failed</span>
+                                                            @endif
+
                                                         </div>
-                                                        <div class="text-sm text-gray-900 dark:text-dark-text-primary">
-                                                            $5,000.00
-                                                        </div>
-                                                    </div>
-                                                    <div>
-                                                        <div class="text-xs text-gray-500 dark:text-dark-text-secondary">
-                                                            Status
-                                                        </div>
-                                                        <span
-                                                            class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400">Completed</span>
-                                                    </div>
-                                                    <div class="col-span-full">
-                                                        <div class="text-xs text-gray-500 dark:text-dark-text-secondary">
-                                                            Transaction ID
-                                                        </div>
-                                                        <div
-                                                            class="text-sm text-gray-900 dark:text-dark-text-primary truncate">
-                                                            0x1234...5678
+                                                        <div class="col-span-full">
+                                                            <div
+                                                                class="text-xs text-gray-500 dark:text-dark-text-secondary">
+                                                                Transaction ID
+                                                            </div>
+                                                            <div
+                                                                class="text-sm text-gray-900 dark:text-dark-text-primary truncate">
+                                                                {{ $deposit->trans_id }}
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap hidden lg:table-cell">
-                                    <div class="text-sm text-gray-900 dark:text-dark-text-primary">
-                                        Bitcoin (BTC)
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap hidden lg:table-cell">
-                                    <div class="text-sm text-gray-900 dark:text-dark-text-primary">
-                                        $5,000.00
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap hidden lg:table-cell">
-                                    <span
-                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400">Completed</span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap hidden lg:table-cell">
-                                    <div class="text-sm text-gray-900 dark:text-dark-text-primary">
-                                        0x1234...5678
-                                    </div>
-                                </td>
-                            </tr>
+                                    </td>
+
+
+                                    <td class="px-6 py-4 whitespace-nowrap hidden lg:table-cell">
+                                        <div class="text-sm text-gray-900 dark:text-dark-text-primary">
+                                            {{ $deposit->currency->name }} <span
+                                                class="uppercase">({{ $deposit->currency->short_name }})</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap hidden lg:table-cell">
+                                        <div class="text-sm text-gray-900 dark:text-dark-text-primary">
+                                            ${{ number_format($deposit->amount, 2) }}
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap hidden lg:table-cell">
+                                        @if ($deposit->status === 'pending')
+                                            <span
+                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 dark:bg-yellow-900/30 text-yellow-500 dark:text-yellow-400">Pending</span>
+                                        @elseif ($deposit->status === 'success')
+                                            <span
+                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400">Completed</span>
+                                        @else
+                                            <span
+                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400">Failed</span>
+                                        @endif
+                                    </td>
+
+                                    <td class="px-6 py-4 whitespace-nowrap hidden lg:table-cell">
+                                        <div class="text-sm text-gray-900 dark:text-dark-text-primary">
+                                            {{ $deposit->trans_id }}
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -255,7 +289,7 @@
                                                 Amount:</span>
                                         </div>
                                         <span id="cryptoAmountDisplay"
-                                            class="text-blue-700 dark:text-blue-400 font-bold text-sm sm:text-base break-all"></span>
+                                            class="text-blue-700 dark:text-blue-400 font-bold text-sm sm:text-base break-all uppercase"></span>
                                     </div>
                                     <div class="flex items-center justify-between">
                                         <div class="flex items-center">
@@ -316,9 +350,9 @@
 
                 <!-- Step 2: Confirmation -->
                 <div id="confirmationStep"
-                    class="bg-white dark:bg-dark-bg-secondary px-4 pt-5 pb-4 sm:p-6 sm:pb-4 hidden">
+                    class="bg-white dark:bg-dark-bg-secondary px-4 pt-5 pb-4 sm:p-6 sm:pb-4 hidden overflow-y-auto">
                     <div class="sm:flex sm:items-start">
-                        <div class="w-full">
+                        <div class="w-full max-h-[80vh] overflow-y-auto"> <!-- Added max-height and overflow -->
                             <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-dark-text-primary mb-4">
                                 Confirm Your Deposit
                             </h3>
@@ -332,10 +366,10 @@
                                     class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 dark:border-gray-600 border-dashed rounded-md">
                                     <div class="space-y-1 text-center">
                                         <div class="flex text-sm text-gray-600 dark:text-dark-text-secondary">
-                                            <label for="transaction-image"
+                                            <label for="transaction_image"
                                                 class="relative cursor-pointer bg-white dark:bg-dark-bg-primary rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none">
                                                 <span>Upload a file</span>
-                                                <input id="transaction-image" name="transaction-image" type="file"
+                                                <input id="transaction_image" name="transaction_image" type="file"
                                                     class="sr-only" accept="image/*" required />
                                             </label>
                                         </div>
@@ -345,13 +379,15 @@
                                     </div>
                                 </div>
                                 <!-- Preview Image -->
-                                <div id="imagePreview" class="mt-4 hidden">
+                                <div id="imagePreview" class="mt-4 hidden flex justify-center items-center">
                                     <img id="previewImg" src="" alt="Preview"
-                                        class="max-w-full h-auto rounded-lg" />
+                                        class="max-w-full max-h-[50vh] rounded-lg object-contain" />
+                                    <!-- Added max-height for image -->
                                 </div>
                             </div>
 
-                            <div class="flex flex-col space-y-3">
+                            <div class="flex flex-col space-y-3 sticky bottom-0 bg-white dark:bg-dark-bg-secondary pt-3">
+                                <!-- Made buttons sticky -->
                                 <button onclick="submitDeposit()"
                                     class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none sm:text-sm">
                                     Submit

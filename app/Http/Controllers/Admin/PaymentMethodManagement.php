@@ -30,8 +30,7 @@ class PaymentMethodManagement extends Controller
             'status' => 'required',
         ]);
 
-        $currencyName = strtolower($request->input('crypto_name'));
-        $shortName = strtolower($request->input('short_name'));
+        $currencyName = $request->input('crypto_name');
         $cryptoCurrency = CryptoCurrency::where('name', $currencyName)->first();
 
         if ($cryptoCurrency) {
@@ -42,10 +41,10 @@ class PaymentMethodManagement extends Controller
 
         CryptoCurrency::insert([
             'name' => $request->input('crypto_name'),
-            'short_name' => $shortName,
+            'short_name' => $request->input('short_name'),
             'wallet_address' => $request->input('wallet_address'),
             'network_type' => $request->input('network_type'),
-            'status' => $request->input('status'),
+            'status' => $request->status,
             'created_at' => Carbon::now()
         ]);
 

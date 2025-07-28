@@ -35,7 +35,7 @@
                             <div class="mb-3">
                                 <label for="" class="form-label">Crypto Name</label>
                                 <input type="text" class="form-control" id="" placeholder="Bitcoin"
-                                    name="crypto_name" value="{{ $cryptoData->name }}" required>
+                                    name="crypto_name" value="{{ $cryptoData->name }}" required readonly>
 
                                 @error('crypto_name')
                                     <span class="mt-1 text-danger">{{ $message }}</span>
@@ -47,7 +47,7 @@
                             <div class="mb-3">
                                 <label for="" class="form-label">Short Name</label>
                                 <input type="text" class="form-control" id="" placeholder="BTC"
-                                    name="short_name" required value="{{ $cryptoData->short_name }}">
+                                    name="short_name" required value="{{ $cryptoData->short_name }}" readonly>
                             </div>
                         </div>
 

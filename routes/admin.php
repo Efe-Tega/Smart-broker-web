@@ -42,7 +42,10 @@ Route::middleware('ensure.admin')->group(function () {
 
         Route::controller(DepositManagement::class)->group(function () {
             Route::get('/manage_deposit', 'index')->name('manage.deposit');
-            Route::get('/edit-deposit', 'editDeposit')->name('edit-deposit');
+            Route::get('/edit-deposit/{id}', 'editDeposit')->name('edit-deposit');
+            Route::get('/delete-deposit/{id}', 'deleteDeposit')->name('delete-deposit');
+
+            Route::post('/update/deposit-status', 'updateDepositStatus')->name('update.deposit-status');
         });
 
         Route::controller(WithdrawalManagement::class)->group(function () {

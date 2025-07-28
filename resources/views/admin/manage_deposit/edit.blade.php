@@ -30,44 +30,55 @@
                 <div class="px-4 my-2">
                     <div class="d-flex justify-content-between mb-2">
                         <div class="card-text text-capitalize"><strong>Transaction ID:</strong></div>
-                        <div><strong>TRX23925r82</strong></div>
+                        <div><strong>{{ $deposit->trans_id }}</strong></div>
                     </div>
 
                     <div class="d-flex justify-content-between mb-2">
                         <div class="card-text text-capitalize">Client Name:</div>
-                        <div>Alex Smith Efeakpor</div>
+                        <div>{{ $deposit->first_name }} {{ $deposit->first_name }}</div>
                     </div>
 
                     <div class="d-flex justify-content-between mb-2">
                         <div class="card-text text-capitalize">Amount:</div>
-                        <div>$5,000.00</div>
+                        <div>${{ number_format($deposit->amount, 2) }}</div>
                     </div>
 
                     <div class="d-flex justify-content-between mb-2">
                         <div class="card-text text-capitalize">Crypto Value:</div>
-                        <div>0.0032934 BTC</div>
+                        <div>{{ $deposit->crypto_value }} <span class="text-uppercase">{{ $deposit->short_name }}</span>
+                        </div>
                     </div>
 
                     <div class="d-flex justify-content-between mb-2">
                         <div class="card-text text-capitalize">Date created:</div>
-                        <div>10 July 2025</div>
+                        <div>{{ $deposit->created_at->format('M d, Y') }}</div>
                     </div>
 
-                    <div class="d-flex align-items-center justify-content-between mb-2">
-                        <div class="card-text text-capitalize">Status:</div>
-                        <div>
-                            <Select class="form-select text-capitalize">
-                                <option value="">pending</option>
-                                <option value="">completed</option>
-                                <option value="">rejected</option>
-                            </Select>
+                    <form action="{{ route('admin.update.deposit-status') }}" method="POST">
+                        @csrf
+
+                        <input type="hidden" name="id" value="{{ $deposit->id }}">
+
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <div class="card-text text-capitalize">Status:</div>
+                            <div>
+                                <Select class="form-select text-capitalize" name="status">
+                                    <option value="pending" {{ $deposit->status === 'pending' ? 'selected' : '' }}>Pending
+                                    </option>
+                                    <option value="success" {{ $deposit->status === 'success' ? 'selected' : '' }}>
+                                        Successful
+                                    </option>
+                                    <option value="failed" {{ $deposit->status === 'failed' ? 'selected' : '' }}>rejected
+                                    </option>
+                                </Select>
+                            </div>
+
                         </div>
 
-                    </div>
-
-                    <div class="d-grid col-6 mx-auto">
-                        <button class="btn btn-primary mt-3 mb-2">Submit</button>
-                    </div>
+                        <div class="d-grid col-6 mx-auto">
+                            <button class="btn btn-primary mt-3 mb-2">Submit</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -75,8 +86,10 @@
         <div class="col">
             <div class="mb-5">
                 <h5 class="font-size-14">Transaction Image</h5>
-                <a class="image-popup-vertical-fit" href="{{ asset('admin/assets/images/img-3.png') }}" title="">
-                    <img class="img-fluid" alt="img-2" src="{{ asset('admin/assets/images/img-3.png') }}" width="">
+                <a class="image-popup-vertical-fit" href="{{ asset('storage/' . $deposit->transaction_image) }}"
+                    title="">
+                    <img class="img-fluid" alt="img-2" src="{{ asset('storage/' . $deposit->transaction_image) }}"
+                        width="">
                 </a>
             </div>
         </div> <!-- end col -->

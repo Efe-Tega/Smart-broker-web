@@ -39,25 +39,37 @@
                         </thead>
 
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>TRX2095rj252</td>
-                                <td>John Doe</td>
-                                <td>
-                                    $5000.00
-                                </td>
-                                <td>0.345496 BTC</td>
-                                <td>
-                                    <button class="btn btn-warning btn-sm">Pending</button>
-                                </td>
-                                <td>Thu, Nov 14, 2024</td>
-                                <td>
-                                    <a href="{{ route('admin.edit-deposit') }}" class="btn btn-info btn-sm">View</a>
-                                    <a href="" class="btn btn-danger btn-sm">Delete</a>
-                                </td>
-                            </tr>
+                            @foreach ($deposits as $key => $deposit)
+                                <tr>
+                                    <td>{{ $key + 1 }}</td>
+                                    <td>{{ $deposit->trans_id }}</td>
+                                    <td>{{ $deposit->user->first_name }} {{ $deposit->user->last_name }}</td>
+                                    <td>
+                                        ${{ number_format($deposit->amount, 2) }}
+                                    </td>
+                                    <td>{{ $deposit->crypto_value }} <span
+                                            class="text-uppercase">{{ $deposit->currency->short_name }}</span></td>
+                                    <td>
+                                        @if ($deposit->status === 'pending')
+                                            <button class="btn btn-warning btn-sm">Pending</button>
+                                        @elseif ($deposit->status === 'success')
+                                            <button class="btn btn-success btn-sm">Successful</button>
+                                        @else
+                                            <button class="btn btn-danger btn-sm">Rejected</button>
+                                        @endif
+                                    </td>
+                                    <td>{{ $deposit->created_at->format('M d, Y') }}</td>
+                                    <td>
+                                        <a href="{{ route('admin.edit-deposit', $deposit->id) }}"
+                                            class="btn btn-info btn-sm">View</a>
+                                        <a href="{{ route('admin.delete-deposit', $deposit->id) }}" id="delete"
+                                            title="delete" class="btn btn-danger btn-sm">Delete</a>
+                                    </td>
+                                </tr>
+                            @endforeach
 
-                            <tr>
+
+                            {{-- <tr>
                                 <td>2</td>
                                 <td>TRX209230252</td>
                                 <td>Jane Doe</td>
@@ -91,7 +103,7 @@
                                     <button class="btn btn-info btn-sm">View</button>
                                     <button class="btn btn-danger btn-sm">Delete</button>
                                 </td>
-                            </tr>
+                            </tr> --}}
 
                         </tbody>
                     </table>

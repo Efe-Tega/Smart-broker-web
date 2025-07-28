@@ -42,7 +42,7 @@
                                     <td>{{ $currency->name }}</td>
                                     <td>{{ $currency->short_name }}</td>
                                     <td>{{ $currency->network_type }}</td>
-                                    <td>{{ $currency->wallet_address }}</td>
+                                    <td title="{{ $currency->wallet_address }}">{!! Str::limit($currency->wallet_address, 30) !!}</td>
                                     <td>
                                         @if ($currency->status == 'enable')
                                             <button

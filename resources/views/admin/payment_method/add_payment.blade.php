@@ -31,25 +31,39 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="" class="form-label">Crypto Name</label>
-                                <input type="text" class="form-control" id="" placeholder="Bitcoin"
-                                    value="{{ old('crypto_name') }}" name="crypto_name" required>
-
-                                @error('crypto_name')
-                                    <span class="mt-1 text-danger">{{ $message }}</span>
-                                @enderror
+                                <label for="" class="form-label">Select Crypto</label>
+                                <select name="crypto_name" id="" class="form-select" required>
+                                    <option value="">--choose--</option>
+                                    <option value="Bitcoin">Bitcoin</option>
+                                    <option value="Ethereum">Ethereum</option>
+                                    <option value="Tether">Tether</option>
+                                    <option value="Binance Coin">Binance Coin</option>
+                                    <option value="Solana">Solana</option>
+                                    <option value="Ripple">Ripple</option>
+                                    <option value="Cardano">Cardano</option>
+                                    <option value="Dogecoin">Dogecoin</option>
+                                    <option value="Polkadot">Polkadot</option>
+                                    <option value="Tron">Tron</option>
+                                </select>
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="" class="form-label">Short Name</label>
-                                <input type="text" class="form-control" id="" placeholder="BTC"
-                                    value="{{ old('short_name') }}" name="short_name" required>
-
-                                @error('short_name')
-                                    <span class="mt-1 text-danger">{{ $message }}</span>
-                                @enderror
+                                <label for="" class="form-label">Symbol</label>
+                                <select name="short_name" id="" class="form-select" required>
+                                    <option value="">--choose--</option>
+                                    <option value="btc">BTC</option>
+                                    <option value="eth">ETH</option>
+                                    <option value="usdt">USDT</option>
+                                    <option value="bnb">BNB</option>
+                                    <option value="sol">SOL</option>
+                                    <option value="xrp">XRP</option>
+                                    <option value="ada">ADA</option>
+                                    <option value="doge">DOGE</option>
+                                    <option value="dot">DOT</option>
+                                    <option value="trx">TRX</option>
+                                </select>
                             </div>
                         </div>
 
@@ -73,8 +87,8 @@
                             <div class="mb-3">
                                 <label for="" class="form-label">Status</label>
                                 <select name="status" id="" class="form-select">
-                                    <option value="enabled">Enable</option>
-                                    <option value="disabled">Disable</option>
+                                    <option value="enable">Enable</option>
+                                    <option value="disable">Disable</option>
                                 </select>
                             </div>
                         </div>

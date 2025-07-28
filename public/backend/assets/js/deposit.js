@@ -13,18 +13,12 @@ function toggleDepositDetails(row) {
 
 // Crypto conversion functionality
 let cryptoRates = {};
-const cryptoSymbols = {
-    btc: "BTC",
-    eth: "ETH",
-    usdt: "USDT",
-    bnb: "BNB",
-};
 
 // Function to fetch current crypto rates
 async function fetchCryptoRates() {
     try {
         const response = await fetch(
-            "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,tether,binance-coin&vs_currencies=usd"
+            "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,tether,binancecoin,solana,ripple,cardano,dogecoin,polkadot,tron&vs_currencies=usd"
         );
         const data = await response.json();
 
@@ -32,7 +26,13 @@ async function fetchCryptoRates() {
             btc: 1 / data.bitcoin.usd,
             eth: 1 / data.ethereum.usd,
             usdt: 1 / data.tether.usd,
-            // bnb: 1 / data["binance-coin"].usd,
+            bnb: 1 / data["binancecoin"].usd,
+            sol: 1 / data.solana.usd,
+            xrp: 1 / data.ripple.usd,
+            ada: 1 / data.cardano.usd,
+            doge: 1 / data.dogecoin.usd,
+            dot: 1 / data.polkadot.usd,
+            trx: 1 / data.tron.usd,
         };
     } catch (error) {
         console.error("Error fetching crypto rates:", error);
@@ -52,9 +52,12 @@ document.addEventListener('DOMContentLoaded', function () {
         if (selectedIndex > 0) {
             const selectedOption = this.options[selectedIndex]
             const networkType = selectedOption.getAttribute('data-network');
+            const currencyId = selectedOption.getAttribute('data-id');
             document.getElementById('networkType').value = networkType || '';
+            document.getElementById('currencyId').value = currencyId || '';
         } else {
             document.getElementById('networkType').value = '';
+            document.getElementById('currencyId').value = '';
         }
 
     });
@@ -71,7 +74,7 @@ function updateCryptoAmount() {
     if (usdAmount && usdAmount >= 100 && cryptoRates[selectedCrypto]) {
         const convertedAmount = usdAmount * cryptoRates[selectedCrypto];
         cryptoAmount.value = convertedAmount.toFixed(8);
-        cryptoSymbolElement.textContent = cryptoSymbols[selectedCrypto];
+        cryptoSymbolElement.textContent = selectedCrypto;
     } else {
         cryptoAmount.value = "";
         cryptoSymbolElement.textContent = "";
@@ -164,7 +167,7 @@ function cancelDeposit() {
         clearInterval(countdownInterval);
     }
     document.getElementById("depositModal").classList.add("hidden");
-    document.getElementById("transaction-image").value = "";
+    document.getElementById("transaction_image").value = "";
     document.getElementById("imagePreview").classList.add("hidden");
 
     // Clear QR code
@@ -183,12 +186,13 @@ function submitDeposit() {
     formData.append('usd_amount', document.getElementById('usdAmount').value);
     formData.append('crypto_amount', document.getElementById('cryptoAmount').value);
     formData.append('wallet_address', document.getElementById('walletAddress').value);
+    formData.append('currency_id', document.getElementById('currencyId').value);
 
 
     // uploaded image from modal
-    const fileInput = document.getElementById('transaction-image');
+    const fileInput = document.getElementById('transaction_image');
     if (fileInput.files.length > 0) {
-        formData.append('transaction-image', fileInput.files[0]);
+        formData.append('transaction_image', fileInput.files[0]);
     } else {
         alert('Please upload your transaction receipt image.');
         return;
@@ -211,6 +215,7 @@ function submitDeposit() {
             return response.json();
         })
         .then(data => {
+            console.log(data)
             const Toast = Swal.mixin({
                 toast: true,
                 position: 'top-end',
@@ -233,9 +238,6 @@ function submitDeposit() {
             }).then(() => {
                 location.reload();
             })
-
-            // alert(data.message || 'Deposit submitted!')
-            // location.reload();
         })
         .catch(err => {
             console.error(err);
@@ -260,7 +262,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Image preview functionality
     document
-        .getElementById("transaction-image")
+        .getElementById("transaction_image")
         .addEventListener("change", function (e) {
             const file = e.target.files[0];
             if (file) {
@@ -279,7 +281,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Generate wallet address button click handler
     document
         .querySelector("button.bg-blue-600")
-        .addEventListener("click", function () {
+        .addEventListener("click", async function () {
             const cryptoSelect = document.querySelector("select");
             const amountInput = document.getElementById("usdAmount");
 
@@ -288,23 +290,28 @@ document.addEventListener("DOMContentLoaded", async function () {
                 return;
             }
 
-            const demoWallets = {
-                btc: "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa",
-                eth: "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
-                usdt: "TKFLguL3uHxe3sZvxPgHCjK5YftvuXsXE5",
-                bnb: "bnb1jxfh2g85q3v0tdq56fnevx6xcxtcnhtsmcu64m",
-            };
-
             const selectedCrypto = cryptoSelect.value;
             const cryptoName =
                 cryptoSelect.options[cryptoSelect.selectedIndex].text;
-            const walletAddress = demoWallets[selectedCrypto];
+
+            let walletAddress;
+            try {
+                const response = await fetch(`/user/wallet-address/${selectedCrypto}`);
+                const data = await response.json()
+
+                if (!response.ok) throw new Error(data.error || 'Unknown error');
+
+                walletAddress = data.address;
+            } catch (error) {
+                alert("Failed to fetch wallet address: " + error.message);
+                return;
+            }
+
             const amount = parseFloat(amountInput.value).toLocaleString(
                 "en-US", {
                 style: "currency",
                 currency: "USD",
-            }
-            );
+            });
 
             showDepositModal(walletAddress, amount, cryptoName);
         });
